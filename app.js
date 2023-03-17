@@ -9,7 +9,6 @@ todoList.addEventListener('click',deleteCheck);
 filterOption.addEventListener('click',filterTodo);
 
 function addTodo (event){
-
     //prevent form from submitting
     event.preventDefault();
 
@@ -22,6 +21,9 @@ function addTodo (event){
     newTodo.innerText = todoInput.value; // the value i want to get
     newTodo.classList.add('todo-item');
     todoDiv.appendChild(newTodo);
+
+    //Add Todo To Local Stroge
+    saveLocalTodos(todoInput.value);
 
     //check mark button
     const completedButton  = document.createElement('button');
@@ -62,7 +64,7 @@ function deleteCheck(e){
 
     }
 }
-
+//filter option
 function filterTodo(e){
     const todos = todoList.childNodes;
     todos.forEach(function(todo){
@@ -87,4 +89,17 @@ function filterTodo(e){
         }
 
     })
+}
+
+
+function saveLocalTodos(todo){
+    // CHECK -- hay do i already have thing in there?
+    let todos;
+    if (localStorage.getItem('todos') === null) {
+      todos = [];   
+    }else{
+        todos = JSON.parse(localStorage.getItem('todos'));
+    }
+    todos.push(todo);
+    localStorage.setItem('todos',JSON.stringify(todos));
 }
